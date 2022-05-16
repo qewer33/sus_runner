@@ -24,6 +24,7 @@ pub struct Game {
     pub clouds: Vec<Cloud>,
     prev: f64,
     next_spawn: f64,
+    score_prev: u32,
 }
 impl Game {
     pub fn new() -> Game {
@@ -40,6 +41,7 @@ impl Game {
             clouds: Vec::new(),
             prev: get_time(),
             next_spawn: rand::gen_range(1.5, 10.0),
+            score_prev: 0,
         }
     }
 
@@ -174,6 +176,11 @@ impl Game {
 
         if is_key_pressed(KeyCode::D) {
             self.debug_draw = !self.debug_draw;
+        }
+
+        if self.score - self.score_prev > 1000 {
+            self.score_prev = self.score;
+            self.speed += 1.0;
         }
 
         match self.state {
