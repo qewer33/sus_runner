@@ -15,7 +15,7 @@ impl Obstacle {
             x_pos: screen_width(),
             speed,
             width: rand::gen_range(1, 4),
-            collision_rect: Rect::new(0.0, 0.0, 0.0, 0.0)
+            collision_rect: Rect::new(0.0, 0.0, 0.0, 0.0),
         }
     }
 
@@ -23,7 +23,7 @@ impl Obstacle {
         for i in 0..self.width {
             draw_texture(
                 *parent.asset_manager.get_texture("obstacle").unwrap(),
-                self.x_pos + 55.0*i as f32,
+                self.x_pos + 55.0 * i as f32,
                 screen_height() / 2.0 + parent.stage.size / 2.0 - 115.0,
                 WHITE,
             );
@@ -34,7 +34,7 @@ impl Obstacle {
         draw_rectangle(
             self.x_pos + 30.0,
             screen_height() / 2.0 + parent.stage.size / 2.0 - 70.0,
-            5.0 + 55.0*self.width as f32,
+            5.0 + 55.0 * self.width as f32,
             70.0,
             Color::from_rgba(237, 35, 61, 100),
         );
@@ -44,8 +44,8 @@ impl Obstacle {
         self.collision_rect = Rect::new(
             self.x_pos + 30.0,
             screen_height() / 2.0 + 380.0 / 2.0 - 70.0,
-            5.0 + 55.0*self.width as f32,
-            70.0
+            5.0 + 55.0 * self.width as f32,
+            70.0,
         );
 
         self.x_pos -= self.speed * delta;

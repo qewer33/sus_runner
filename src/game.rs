@@ -101,71 +101,71 @@ impl Game {
             GameState::Start => {
                 draw_texture(
                     *self.asset_manager.get_texture("banner").unwrap(),
-                    screen_width()/2.0 - 215.0,
-                    screen_height()/2.0 - 110.0,
-                    WHITE
+                    screen_width() / 2.0 - 215.0,
+                    screen_height() / 2.0 - 110.0,
+                    WHITE,
                 );
 
                 draw_text_ex(
                     "PRESS SPACE TO START",
-                    screen_width()/2.0 - 175.0,
-                    screen_height()/2.0 + 50.0,
+                    screen_width() / 2.0 - 175.0,
+                    screen_height() / 2.0 + 50.0,
                     TextParams {
                         font: *self.asset_manager.get_font("default").unwrap(),
                         font_size: 25,
                         color: Color::from_rgba(13, 43, 69, 255),
                         ..Default::default()
-                    }
+                    },
                 );
 
                 draw_text_ex(
                     "press d to activate debug draw",
-                    screen_width()/2.0 - 155.0,
-                    screen_height()/2.0 + 80.0,
+                    screen_width() / 2.0 - 155.0,
+                    screen_height() / 2.0 + 80.0,
                     TextParams {
                         font: *self.asset_manager.get_font("default").unwrap(),
                         font_size: 15,
                         color: Color::from_rgba(13, 43, 69, 255),
                         ..Default::default()
-                    }
+                    },
                 );
             }
             GameState::InGame => {}
             GameState::GameOver => {
                 draw_text_ex(
                     "DEFEAT",
-                    screen_width()/2.0 - 145.0,
-                    screen_height()/2.0 - 30.0,
+                    screen_width() / 2.0 - 145.0,
+                    screen_height() / 2.0 - 30.0,
                     TextParams {
                         font: *self.asset_manager.get_font("default").unwrap(),
                         font_size: 70,
                         color: Color::from_rgba(13, 43, 69, 255),
                         ..Default::default()
-                    }
+                    },
                 );
 
                 draw_text_ex(
                     format!("YOUR SCORE WAS: {:06}", self.score).as_str(),
-                    screen_width()/2.0 - 175.0,
-                    screen_height()/2.0 + 50.0,
+                    screen_width() / 2.0 - 175.0,
+                    screen_height() / 2.0 + 50.0,
                     TextParams {
                         font: *self.asset_manager.get_font("default").unwrap(),
                         font_size: 25,
                         color: Color::from_rgba(13, 43, 69, 255),
                         ..Default::default()
-                    }
+                    },
                 );
 
                 draw_text_ex(
                     "PRESS SPACE TO RESTART",
-                    screen_width()/2.0 - 110.0,
-                    screen_height()/2.0 + 80.0,
+                    screen_width() / 2.0 - 110.0,
+                    screen_height() / 2.0 + 80.0,
                     TextParams {
                         font: *self.asset_manager.get_font("default").unwrap(),
                         font_size: 15,
                         color: Color::from_rgba(13, 43, 69, 255),
                         ..Default::default()
-                    }
+                    },
                 );
             }
         }
@@ -185,7 +185,7 @@ impl Game {
 
         match self.state {
             GameState::Start => {
-                if is_key_pressed(KeyCode::Space) {
+                if is_key_pressed(KeyCode::Space) || is_mouse_button_pressed(MouseButton::Left) {
                     self.state = GameState::InGame;
                     self.prev = get_time();
                     self.player.jump();
@@ -206,7 +206,11 @@ impl Game {
                 self.spawn_obstacles();
 
                 for (i, obstacle) in self.obstacles.clone().iter().enumerate() {
-                    if self.player.collision_rect.overlaps(&obstacle.collision_rect) {
+                    if self
+                        .player
+                        .collision_rect
+                        .overlaps(&obstacle.collision_rect)
+                    {
                         self.state = GameState::GameOver;
                         self.clouds.clear();
                     }
@@ -229,7 +233,7 @@ impl Game {
                 }
             }
             GameState::GameOver => {
-                if is_key_pressed(KeyCode::Space) {
+                if is_key_pressed(KeyCode::Space) || is_mouse_button_pressed(MouseButton::Left) {
                     self.state = GameState::InGame;
                     self.score = 0;
                     self.player.y_pos = 0.0;

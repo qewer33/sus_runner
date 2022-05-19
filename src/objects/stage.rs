@@ -29,7 +29,7 @@ impl Stage {
                 font_size: 35,
                 color: Color::from_rgba(13, 43, 69, 255),
                 ..Default::default()
-            }
+            },
         );
     }
 }
