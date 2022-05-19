@@ -94,7 +94,7 @@ impl Game {
 
         self.player.draw(&self);
         if self.debug_draw {
-            self.player.debug_draw(&self);
+            self.player.debug_draw();
         }
 
         match self.state {
@@ -188,20 +188,13 @@ impl Game {
                 if is_key_pressed(KeyCode::Space) || is_mouse_button_pressed(MouseButton::Left) {
                     self.state = GameState::InGame;
                     self.prev = get_time();
-                    self.player.jump();
+                    self.player.jump(self.delta);
                 }
             }
             GameState::InGame => {
                 self.score += 1;
 
-                // It's probably not a good idea to clone the entire Game
-                // object but I couldn't find any other solutions here.
-                // Can't just pass a reference to the Game like done in
-                // draw methods because update methods mutate self and
-                // that causes an immutable/mutable reference collision
-                // could use Rc and Cell but not really ready for that
-                // yet. I'll probably use an ECS system for next project
-                self.player.update(&self.clone());
+                self.player.update(self.delta);
 
                 self.spawn_obstacles();
 

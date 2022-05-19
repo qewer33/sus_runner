@@ -28,43 +28,43 @@ impl Player {
         draw_texture(
             texture,
             30.0,
-            screen_height() / 2.0 + parent.stage.size / 2.0 - self.y_pos - 120.0,
+            screen_height() / 2.0 + 380.0 / 2.0 - self.y_pos - 120.0,
             WHITE,
         );
     }
 
-    pub fn debug_draw(&self, parent: &Game) {
+    pub fn debug_draw(&self) {
         draw_rectangle(
             60.0,
-            screen_height() / 2.0 + parent.stage.size / 2.0 - self.y_pos - 90.0,
+            screen_height() / 2.0 + 380.0 / 2.0 - self.y_pos - 90.0,
             60.0,
             90.0,
             Color::from_rgba(24, 143, 247, 100),
         );
     }
 
-    pub fn update(&mut self, parent: &Game) {
+    pub fn update(&mut self, delta: f32) {
         self.collision_rect = Rect::new(
             60.0,
-            screen_height() / 2.0 + parent.stage.size / 2.0 - self.y_pos - 90.0,
+            screen_height() / 2.0 + 380.0 / 2.0 - self.y_pos - 90.0,
             60.0,
             90.0,
         );
 
-        self.jump();
+        self.jump(delta);
     }
 
-    pub fn jump(&mut self) {
+    pub fn jump(&mut self, delta: f32) {
         if (is_key_pressed(KeyCode::Space) || is_mouse_button_pressed(MouseButton::Left))
             && self.y_pos == 0.0
         {
             self.y_vel = self.jump_pow;
         }
 
-        self.y_pos += self.y_vel;
+        self.y_pos += self.y_vel * delta;
 
         if self.y_pos > 0.0 {
-            self.y_vel -= self.gravity;
+            self.y_vel -= self.gravity * delta;
         } else {
             self.y_pos = 0.0;
         }
