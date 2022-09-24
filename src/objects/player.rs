@@ -55,7 +55,7 @@ impl Player {
     }
 
     pub fn jump(&mut self, delta: f32) {
-        if (is_key_pressed(KeyCode::Space) || is_mouse_button_pressed(MouseButton::Left))
+        if (is_key_down(KeyCode::Space) || is_mouse_button_down(MouseButton::Left))
             && self.y_pos == 0.0
         {
             self.y_vel = self.jump_pow;
